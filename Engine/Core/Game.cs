@@ -1,4 +1,4 @@
-﻿using Tetris.Engine.Interfaces;
+﻿using Tetris.Engine.Core.Interfaces;
 
 namespace Tetris.Engine.Core
 {

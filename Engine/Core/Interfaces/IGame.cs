@@ -1,13 +1,5 @@
-﻿namespace Tetris.Engine.Interfaces
+﻿namespace Tetris.Engine.Core.Interfaces
 {
-    #region Delegates for events
-
-    public delegate void GameTickDelegate(IGame game, float dtime);
-
-    public delegate void GameRotateDelegate(IGame game, bool isRight);
-
-    #endregion
-
     public interface IGame
     {
         public List<IShape?> Shapes { get; }
@@ -34,11 +26,11 @@
 
         #region Events
 
-        public event GameTickDelegate TickEvent;
+        public event GameTickDelegate? TickEvent;
 
         public void StartTick(float dt);
 
-        public event GameRotateDelegate RotateEvent;
+        public event GameRotateDelegate? RotateEvent;
 
         public void StartRotate(bool isRight);
 

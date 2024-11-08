@@ -8,9 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
-using Tetris.Engine.Interfaces;
-using Tetris.Engine.Core;
 using Tetris.Engine.Core.Interfaces;
+using Tetris.Engine.Core;
 using System.Diagnostics;
 
 namespace Tetris

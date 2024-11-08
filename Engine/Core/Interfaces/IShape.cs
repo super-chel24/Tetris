@@ -1,4 +1,4 @@
-﻿namespace Tetris.Engine.Interfaces
+﻿namespace Tetris.Engine.Core.Interfaces
 {
     public interface IShape
     {
