@@ -1,4 +1,5 @@
-﻿using Tetris.Engine.Core.Interfaces;
+﻿using System.Diagnostics;
+using Tetris.Engine.Core.Interfaces;
 
 namespace Tetris.Engine.Core
 {
@@ -18,14 +19,23 @@ namespace Tetris.Engine.Core
 
         public void StartTick(float dt)
         {
+            if (Shapes.Count == 0) CreateNewMainShape(null);
+
             TickEvent?.Invoke(this, dt);
         }
 
-        public event GameRotateDelegate? RotateEvent;
+        public event GameRotateMainShapeDelegate? RotateMainShapeEvent;
 
-        public void StartRotate(bool isRught)
+        public void RotateMainShape(bool isRught)
         {
-            RotateEvent?.Invoke(this, isRught);
+            RotateMainShapeEvent?.Invoke(this, isRught);
+        }
+
+        public event GameMoveMainShapeDelegate? MoveMainShapeEvent;
+
+        public void MoveMainShape(Point offset)
+        {
+            MoveMainShapeEvent?.Invoke(this, offset);
         }
 
         #endregion
@@ -80,19 +90,15 @@ namespace Tetris.Engine.Core
             return true;
         }
 
-        public void MoveShape(IShape shape, Point delta)
+        public void CreateNewMainShape(IShape? previousShape)
         {
-            Point[] points = GetCellsOfShape(shape);
-
-            foreach(Point point in points)
+            Point[] points =
             {
-                Grid[point.X, point.Y] = null;
-            }
-
-            foreach(Point point in points)
-            {
-                Grid[point.X + delta.X, point.Y + delta.Y] = shape;
-            }
+                new Point(5, 0),
+                new Point(5, 1),
+                new Point(4, 0)
+            };
+            AddShape(new Shape(), points, true); //Real random shape generator will be in future
         }
 
         public void RewriteCells(Point[] points, IShape? shape)
@@ -109,8 +115,11 @@ namespace Tetris.Engine.Core
 
             if (isMainShape)
             {
+                if(MainShape != null) MainShape.CantFallEvent -= CreateNewMainShape;
                 MainShape = shape;
-                RotateEvent += shape.OnRotateHandler;
+                RotateMainShapeEvent = shape.OnRotateHandler;
+                MoveMainShapeEvent = shape.MoveHandler;
+                shape.CantFallEvent += CreateNewMainShape;
             }
 
             Shapes.Add(shape);

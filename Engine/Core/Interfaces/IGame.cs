@@ -20,7 +20,7 @@
 
         public bool IsPointsInsideBorders(Point[] point);
 
-        public void MoveShape(IShape shape, Point delta);
+        public void CreateNewMainShape(IShape shape);
 
         public void RewriteCells(Point[] points, IShape? shape);
 
@@ -30,9 +30,13 @@
 
         public void StartTick(float dt);
 
-        public event GameRotateDelegate? RotateEvent;
+        public event GameRotateMainShapeDelegate? RotateMainShapeEvent;
 
-        public void StartRotate(bool isRight);
+        public void RotateMainShape(bool isRight);
+
+        public event GameMoveMainShapeDelegate? MoveMainShapeEvent;
+
+        public void MoveMainShape(Point offset);
 
         #endregion
 

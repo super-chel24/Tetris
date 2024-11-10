@@ -39,23 +39,6 @@ namespace Tetris
             GridSize = new Point(10, 10);
             Game = new Game(GridSize.X, GridSize.Y);
 
-            #region Debug code (delete in future)
-
-            Point[] points =
-            {
-                new Point(0, 8)
-            };
-            Game.AddShape(new Shape(), points, false);
-
-            points = new Point[]
-            {
-                new Point(5, 3),
-                new Point(5, 4)
-            };
-            Game.AddShape(shape, points, true);
-
-            #endregion
-
             #region Initialize window (because constructor dont like editing InitilizeComponent
 
             GameGridOutPut.Size = new(GridSize.X * CellSizeDisplay, GridSize.Y * CellSizeDisplay);
@@ -73,11 +56,6 @@ namespace Tetris
 
         private void OnGameTickHandler(object? sender, EventArgs e)
         {
-            foreach (Point point in Game.GetCellsOfShape(shape))
-            {
-                Debug.WriteLine(point.X + " " + point.Y);
-            }
-
             Game.StartTick(TickTimer.Interval);
         }
 
@@ -105,10 +83,16 @@ namespace Tetris
             switch(e.KeyCode)
             {
                 case Keys.E:
-                    Game.StartRotate(true);
+                    Game.RotateMainShape(true);
                     break;
                 case Keys.Q:
-                    Game.StartRotate(false); 
+                    Game.RotateMainShape(false); 
+                    break;
+                case Keys.D:
+                    Game.MoveMainShape(new(1, 0));
+                    break;
+                case Keys.A:
+                    Game.MoveMainShape(new(-1, 0));
                     break;
             }
         }
