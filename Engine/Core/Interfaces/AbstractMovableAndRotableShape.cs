@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Tetris.Engine.Core.Interfaces
+﻿namespace Tetris.Engine.Core.Interfaces
 {
     internal abstract class AbstractMovableAndRotableShape : IShape
     {
@@ -57,22 +55,26 @@ namespace Tetris.Engine.Core.Interfaces
             Point[] currentCells = game.GetCellsOfShape(this);
             Point[] newPoints = new Point[currentCells.Length];
 
-            for (Point distance = new(offset.X, offset.Y); distance.X != 0 || distance.Y != 0; distance.Offset(-Math.Sign(distance.X), -Math.Sign(distance.Y)))
+            Point distance = new(offset.X, offset.Y);
+            for (; distance.X != 0 || distance.Y != 0; distance.Y -= Math.Sign(distance.Y))
             {
-                for (int i = 0; i < currentCells.Length; i++)
+                for (; distance.X != 0 || distance.Y != 0; distance.X -= Math.Sign(distance.X))
                 {
-                    newPoints[i].X = currentCells[i].X + distance.X;
-                    newPoints[i].Y = currentCells[i].Y + distance.Y;
-                }
+                    for (int i = 0; i < currentCells.Length; i++)
+                    {
+                        newPoints[i].X = currentCells[i].X + distance.X;
+                        newPoints[i].Y = currentCells[i].Y + distance.Y;
+                    }
 
-                if (!game.IsPointsInsideBorders(newPoints) || !game.IsEmptySpace(newPoints, this))
-                {
-                    continue;
-                }
+                    if (!game.IsPointsInsideBorders(newPoints) || !game.IsEmptySpace(newPoints, this))
+                    {
+                        continue;
+                    }
 
-                game.RewriteCells(currentCells, null);
-                game.RewriteCells(newPoints, this);
-                return;
+                    game.RewriteCells(currentCells, null);
+                    game.RewriteCells(newPoints, this);
+                    return;
+                }
             }
 
             if (offset.Y != 0) CantFallEvent?.Invoke(this);
