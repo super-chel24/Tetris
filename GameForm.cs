@@ -22,7 +22,7 @@ namespace Tetris
 
         public IGame Game { get; set; }
 
-        public IShape shape = new Shape();
+        public IShape shape = new StandardShape();
 
         public Point GridSize { get; set; }
 

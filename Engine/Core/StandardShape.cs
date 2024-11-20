@@ -2,7 +2,7 @@
 
 namespace Tetris.Engine.Core
 {
-    internal class Shape : AbstractMovableAndRotableShape
+    internal class StandardShape : AbstractMovableAndRotableShape
     {
     }
 }

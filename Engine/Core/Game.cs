@@ -5,6 +5,8 @@ namespace Tetris.Engine.Core
 {
     internal class Game : IGame
     {
+
+
         public List<IShape?> Shapes { get; }
 
         protected IShape? MainShape { get; set; }
@@ -98,7 +100,7 @@ namespace Tetris.Engine.Core
                 new Point(5, 1),
                 new Point(4, 0)
             };
-            AddShape(new Shape(), points, true); //Real random shape generator will be in future
+            AddShape(new StandardShape(), points, true); //Real random shape generator will be in future
         }
 
         public void RewriteCells(Point[] points, IShape? shape)
